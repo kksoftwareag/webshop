@@ -100,6 +100,9 @@ body.product-page {
 		.btn-add-to-cart-list {
 			visibility: visible;
 		}
+		.add-qty-to-cart-list {
+			visibility: visible;
+		}
 		.like-action {
 			visibility: visible;
 		}
@@ -169,6 +172,14 @@ body.product-page {
 		font-size: 13px;
 		color: var(--text-muted);
 		margin: var(--margin-sm) 0;
+		margin-bottom: 0 !important;
+	}
+
+	.product-uom {
+		font-size: 13px;
+		color: var(--text-muted);
+		margin: var(--margin-sm) 0;
+		margin-top: 0 !important;
 	}
 
 	.product-price {
@@ -221,6 +232,9 @@ body.product-page {
 		transition: box-shadow 400ms;
 
 		.btn-add-to-cart-list {
+			visibility: visible;
+		}
+		.add-qty-to-cart-list {
 			visibility: visible;
 		}
 		.like-action-list {
@@ -932,6 +946,20 @@ body.product-page {
 	}
 }
 
+.cart-btn {
+	border: none;
+	background: var(--gray-100);
+	box-shadow: none;
+	width: 24px;
+	height: 28px;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	font-size: 20px;
+	font-weight: 300;
+	color: var(--gray-700);
+}
+
 .cart-indicator {
 	position: absolute;
 	text-align: center;
@@ -1080,6 +1108,24 @@ body.product-page {
 	margin: var(--margin-sm) 0;
 	// margin-top: auto !important;
 	max-height: 50px; // to avoid resizing on window resize
+	flex: none;
+	transition: 0.3s ease;
+
+	font-size: 13px;
+
+	&:hover {
+		color: white;
+	}
+
+	@media (max-width: 992px) {
+		visibility: visible !important;
+	}
+}
+
+.add-qty-to-cart-list {
+	visibility: hidden;
+	margin: var(--margin-sm) 0;
+	max-height: 50px;
 	flex: none;
 	transition: 0.3s ease;
 

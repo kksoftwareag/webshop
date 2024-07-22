@@ -241,9 +241,17 @@ class ProductQuery:
 				"Wishlist Item", {"item_code": item.item_code, "parent": frappe.session.user}
 			):
 				item.wished = True
-
+			
+			self.get_stock_uom(item)
+   
 		return result, discount_list
 
+	def get_stock_uom(self, item):
+		"""Modify item object and add stock uom details."""
+		item_doc = frappe.get_doc("Item", item.item_code)
+		item.stock_uom = item_doc.stock_uom
+		
+	
 	def get_price_discount_info(self, item, price_object, discount_list):
 		"""Modify item object and add price details."""
 		fields = ["formatted_mrp", "formatted_price", "price_list_rate"]

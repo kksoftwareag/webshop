@@ -54,6 +54,7 @@ frappe.ready(function() {
 
 	// update login
 	shopping_cart.show_shoppingcart_dropdown();
+	shopping_cart.bind_qty_buttons();
 	shopping_cart.set_cart_count();
 	shopping_cart.show_cart_navbar();
 });
@@ -73,6 +74,24 @@ $.extend(shopping_cart, {
 			}
 		});
 	},
+	bind_qty_buttons: function() {
+        $(document).on('click', '.cart-btn', function() {
+            const $button = $(this);
+            const $input = $button.closest('.number-spinner').find('.cart-qty');
+            let currentValue = parseInt($input.val());
+            const direction = $button.data('dir');
+
+            if (direction === 'up') {
+                currentValue += 1;
+            } else if (direction === 'dwn') {
+                if (currentValue > 1) {
+                    currentValue -= 1;
+                }
+            }
+
+            $input.val(currentValue);
+        });
+    },
 
 	update_cart: function(opts) {
 		if (frappe.session.user==="Guest") {
@@ -201,17 +220,22 @@ $.extend(shopping_cart, {
 				});
 				return;
 			}
-
 			$btn.addClass('hidden');
-			$btn.closest('.cart-action-container').addClass('d-flex');
-			$btn.parent().find('.go-to-cart').removeClass('hidden');
-			$btn.parent().find('.go-to-cart-grid').removeClass('hidden');
-			$btn.parent().find('.cart-indicator').removeClass('hidden');
-
+					
+			const $container = $btn.closest('.cart-item-container');
+		
+			$container.find('.add-qty-to-cart-list').hide();
+		
+			$container.find('.go-to-cart').removeClass('hidden');
+			$container.find('.go-to-cart-grid').removeClass('hidden');
+			$container.find('.cart-indicator').removeClass('hidden');
+		
 			const item_code = $btn.data('item-code');
+			const qty = $container.find('.cart-qty').val();
+		
 			webshop.webshop.shopping_cart.update_cart({
 				item_code,
-				qty: 1
+				qty: parseInt(qty)
 			});
 
 		});

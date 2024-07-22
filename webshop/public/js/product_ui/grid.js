@@ -78,6 +78,7 @@ webshop.ProductGrid = class {
 
 		body_html += `</div>`;
 		body_html += `<div class="product-category" itemprop="name">${ item.item_group || '' }</div>`;
+		body_html += `<div class="product-uom" itemprop="uom"> ${ frappe._('UOM') + ': ' + item.stock_uom || '' }</div>`;
 
 		if (item.formatted_price) {
 			body_html += this.get_price_html(item);
@@ -172,27 +173,36 @@ webshop.ProductGrid = class {
 			`;
 		} else if (settings.enabled && (settings.allow_items_not_in_stock || item.in_stock)) {
 			return `
-				<div id="${ item.name }" class="btn
-					btn-sm btn-primary btn-add-to-cart-list
-					w-100 mt-2 ${ item.in_cart ? 'hidden' : '' }"
-					data-item-code="${ item.item_code }">
-					<span class="mr-2">
-						<svg class="icon icon-md">
-							<use href="#icon-assets"></use>
-						</svg>
-					</span>
-					${ settings.enable_checkout ? __('Add to Cart') :  __('Add to Quote') }
-				</div>
-
-				<a href="/cart">
-					<div id="${ item.name }" class="btn
-						btn-sm btn-primary btn-add-to-cart-list
-						w-100 mt-4 go-to-cart-grid
-						${ item.in_cart ? '' : 'hidden' }"
-						data-item-code="${ item.item_code }">
-						${ settings.enable_checkout ? __('Go to Cart') :  __('Go to Quote') }
+				<div class="cart-item-container">
+					<div class="d-flex align-items-center ${item.in_cart ? 'hidden' : ''}">
+						<div class="mr-3 add-qty-to-cart-list ${item.in_cart ? 'hidden' : ''}">
+							<div class="input-group number-spinner">
+								<span class="input-group-prepend d-sm-inline-block">
+									<button class="btn cart-btn" data-dir="dwn">–</button>
+								</span>
+								<input class="form-control text-center cart-qty" value="1" data-item-code="${item.item_code}" style="max-width: 50px;">
+								<span class="input-group-append d-sm-inline-block">
+									<button class="btn cart-btn" data-dir="up">+</button>
+								</span>
+							</div>
+						</div>
+						
+						<div id="${item.name}" class="btn btn-sm btn-primary btn-add-to-cart-list w-50 ${item.in_cart ? 'hidden' : ''}" data-item-code="${item.item_code}">
+							<span class="mr-2">
+								<svg class="icon icon-md">
+									<use href="#icon-assets"></use>
+								</svg>
+							</span>
+							${settings.enable_checkout ? 'Add to Cart' : 'Add to Quote'}
+						</div>
 					</div>
-				</a>
+
+					<a href="/cart">
+						<div id="${item.name}" class="btn btn-sm btn-primary btn-add-to-cart-list w-100 mt-4 go-to-cart-grid ${item.in_cart ? '' : 'hidden'}" data-item-code="${item.item_code}">
+							${settings.enable_checkout ? __('Go to Cart') : __('Go to Quote')}
+						</div>
+					</a>
+				</div>	
 			`;
 		} else {
 			return ``;
