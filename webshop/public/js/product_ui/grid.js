@@ -79,7 +79,12 @@ webshop.ProductGrid = class {
 		body_html += `</div>`;
 		body_html += `<div class="product-category" itemprop="name">${ item.item_group || '' }</div>`;
 		body_html += `<div class="product-uom" itemprop="uom"> ${ frappe._('UOM') + ': ' + item.stock_uom || '' }</div>`;
-
+		if (item.custom_min_order_amount){
+			body_html += `<div class="min-order-qty" itemprop="min-order-qty"> ${ frappe._('Minimale Abnahmemenge') + ': ' + item.custom_min_order_amount || '' }</div>`;
+		} 
+		if (item.custom_min_order_amount){
+			body_html += `<div class="max-order-qty" itemprop="max-order-qty"> ${ frappe._('Maximale Abnahmemenge') + ': ' + item.custom_min_order_amount || '' }</div>`;
+		}
 		if (item.formatted_price) {
 			body_html += this.get_price_html(item);
 		}
@@ -172,6 +177,10 @@ webshop.ProductGrid = class {
 				</a>
 			`;
 		} else if (settings.enabled && (settings.allow_items_not_in_stock || item.in_stock)) {
+			let min_order_amount = 1
+			if (item.custom_min_order_amount){
+				min_order_amount = item.custom_min_order_amount
+			}
 			return `
 				<div class="cart-item-container">
 					<div class="d-flex align-items-center ${item.in_cart ? 'hidden' : ''}">
@@ -180,14 +189,14 @@ webshop.ProductGrid = class {
 								<span class="input-group-prepend d-sm-inline-block">
 									<button class="btn cart-btn" data-dir="dwn">–</button>
 								</span>
-								<input class="form-control text-center cart-qty" value="1" data-item-code="${item.item_code}" style="max-width: 50px;">
+								<input class="form-control text-center cart-qty" value="${min_order_amount}" data-item-code="${item.item_code}" style="max-width: 50px;">
 								<span class="input-group-append d-sm-inline-block">
 									<button class="btn cart-btn" data-dir="up">+</button>
 								</span>
 							</div>
 						</div>
 						
-						<div id="${item.name}" class="btn btn-sm btn-primary btn-add-to-cart-list w-50 ${item.in_cart ? 'hidden' : ''}" data-item-code="${item.item_code}">
+						<div min_amount="${min_order_amount}" max_amount="${item.custom_min_order_amount}" id="${item.name}" class="btn btn-sm btn-primary btn-add-to-cart-list w-50 ${item.in_cart ? 'hidden' : ''}" data-item-code="${item.item_code}">
 							<span class="mr-2">
 								<svg class="icon icon-md">
 									<use href="#icon-assets"></use>

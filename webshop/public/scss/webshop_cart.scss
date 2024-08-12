@@ -180,6 +180,22 @@ body.product-page {
 		color: var(--text-muted);
 		margin: var(--margin-sm) 0;
 		margin-top: 0 !important;
+		margin-bottom: 0 !important;
+	}
+
+	.min-order-qty{
+		font-size: 13px;
+		color: var(--text-muted);
+		margin: var(--margin-sm) 0;
+		margin-top: 0 !important;
+		margin-bottom: 0 !important;
+	}
+
+	.max-order-qty{
+		font-size: 13px;
+		color: var(--text-muted);
+		margin: var(--margin-sm) 0;
+		margin-top: 0 !important;
 	}
 
 	.product-price {

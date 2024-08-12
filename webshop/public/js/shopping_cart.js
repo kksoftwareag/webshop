@@ -210,7 +210,8 @@ $.extend(shopping_cart, {
 		$('.page_content').on('click', '.btn-add-to-cart-list', (e) => {
 			const $btn = $(e.currentTarget);
 			$btn.prop('disabled', true);
-
+			min = e.currentTarget.attributes.min_amount.value
+			max = e.currentTarget.attributes.max_amount.value
 			if (frappe.session.user==="Guest") {
 				if (localStorage) {
 					localStorage.setItem("last_visited", window.location.pathname);
@@ -232,7 +233,17 @@ $.extend(shopping_cart, {
 		
 			const item_code = $btn.data('item-code');
 			const qty = $container.find('.cart-qty').val();
-		
+
+			//default for min is 1
+			if(parseInt(qty) < parseInt(min)){
+				frappe.throw("Die Anzahl der ausgewählten Artikel unterschreitet die minimale Abnahme. Bitte Seite neu laden und erneut versuchen.")
+			}
+			//only activated if max larger than 0
+			if(parseInt(max) != 0){
+				if(parseInt(qty) > parseInt(max) ){
+					frappe.throw("Die Anzahl der ausgewählten Artikel überschreitet die maximale Abnahme. Bitte Seite neu laden und erneut versuchen.")
+				}
+			}
 			webshop.webshop.shopping_cart.update_cart({
 				item_code,
 				qty: parseInt(qty)
