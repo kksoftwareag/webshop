@@ -83,7 +83,7 @@ webshop.ProductGrid = class {
 			body_html += `<div class="min-order-qty" itemprop="min-order-qty"> ${ frappe._('Minimale Abnahmemenge') + ': ' + item.custom_min_order_amount || '' }</div>`;
 		} 
 		if (item.custom_min_order_amount){
-			body_html += `<div class="max-order-qty" itemprop="max-order-qty"> ${ frappe._('Maximale Abnahmemenge') + ': ' + item.custom_min_order_amount || '' }</div>`;
+			body_html += `<div class="max-order-qty" itemprop="max-order-qty"> ${ frappe._('Maximale Abnahmemenge') + ': ' + item.custom_max_order_amount || '' }</div>`;
 		}
 		if (item.formatted_price) {
 			body_html += this.get_price_html(item);
@@ -196,7 +196,7 @@ webshop.ProductGrid = class {
 							</div>
 						</div>
 						
-						<div min_amount="${min_order_amount}" max_amount="${item.custom_min_order_amount}" id="${item.name}" class="btn btn-sm btn-primary btn-add-to-cart-list w-50 ${item.in_cart ? 'hidden' : ''}" data-item-code="${item.item_code}">
+						<div min_amount="${min_order_amount}" max_amount="${item.custom_max_order_amount}" id="${item.name}" class="btn btn-sm btn-primary btn-add-to-cart-list w-50 ${item.in_cart ? 'hidden' : ''}" data-item-code="${item.item_code}">
 							<span class="mr-2">
 								<svg class="icon icon-md">
 									<use href="#icon-assets"></use>
